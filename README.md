@@ -243,8 +243,8 @@ python migrate_alert_history.py
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Jared0024/NTU-STARS-ALERT.git
-cd NTU-STARS-ALERT
+git clone https://github.com/jared-makes-stuff/NTU-Vacancy-Alert.git
+cd NTU-Vacancy-Alert
 ```
 
 ### 2. Install Dependencies
@@ -518,7 +518,7 @@ Logs are stored in:
 ## Project Structure
 
 ```
-NTU-STARS-ALERT/
+NTU-Vacancy-Alert/
 ├── src/
 │   ├── __init__.py              # Package initialization
 │   ├── bot.py                   # Telegram bot with command handlers (Singleton)
@@ -1074,8 +1074,8 @@ Please use responsibly and in accordance with:
 
 ### Contact
 
-- **GitHub Issues:** [Report bugs or request features](https://github.com/Jared0024/NTU-STARS-ALERT/issues)
-- **Discussions:** [Ask questions and share ideas](https://github.com/Jared0024/NTU-STARS-ALERT/discussions)
+- **GitHub Issues:** [Report bugs or request features](https://github.com/yourusername/NTU-Vacancy-Alert/issues)
+- **Discussions:** [Ask questions and share ideas](https://github.com/yourusername/NTU-Vacancy-Alert/discussions)
 
 ---
 

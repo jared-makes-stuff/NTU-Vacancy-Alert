@@ -51,9 +51,6 @@ class Config:
         # NTU STARS Configuration
         self.STARS_BASE_URL = os.getenv('STARS_BASE_URL', 'https://wish.wis.ntu.edu.sg/pls/webexe')
         
-        # NTU API Configuration
-        self.NTU_API_URL = os.getenv('NTU_API_URL', 'http://192.168.1.30:3000')
-        
         # Default semester values (fallback if API fails)
         self._default_academic_year = os.getenv('DEFAULT_ACADEMIC_YEAR', '2025')
         self._default_semester = os.getenv('DEFAULT_SEMESTER', '2')
