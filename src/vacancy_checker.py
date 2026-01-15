@@ -13,6 +13,9 @@ from .vacancy_api import vacancy_api
 
 logger = get_logger(__name__)
 
+DATA_SOURCE_URL = "https://wish.wis.ntu.edu.sg/webexe/owa/aus_vacancy.check_vacancy"
+DATA_SOURCE_LINK = f"[{DATA_SOURCE_URL}]({DATA_SOURCE_URL})"
+
 
 class VacancyChecker:
     """
@@ -109,7 +112,8 @@ class VacancyChecker:
                 f"*Index:* {alert['index_number']}\n"
                 f"*Vacancies:* {vacancy_info['vacancy']}\n"
                 f"*Waitlist:* {vacancy_info['waitlist']}\n\n"
-                "Hurry! Slots may fill up quickly!"
+                "Hurry! Slots may fill up quickly!\n\n"
+                f"Data source: {DATA_SOURCE_LINK}"
             )
             
             # Create button for registration link

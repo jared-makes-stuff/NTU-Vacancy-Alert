@@ -5,6 +5,7 @@ Main bot implementation with user registration and alert management
 
 import asyncio
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.helpers import escape_markdown
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -20,6 +21,9 @@ from .logger import get_logger
 from .vacancy_api import vacancy_api
 
 logger = get_logger(__name__)
+
+DATA_SOURCE_URL = "https://wish.wis.ntu.edu.sg/webexe/owa/aus_vacancy.check_vacancy"
+DATA_SOURCE_LINK = f"[{DATA_SOURCE_URL}]({DATA_SOURCE_URL})"
 
 # Conversation states
 (ADD_ALERT_COURSE, ADD_ALERT_INDEX, DISPLAY_VACANCIES_COURSE) = range(3)
@@ -63,8 +67,9 @@ class TelegramBot:
         # Auto-register user
         db.add_user(update.effective_user.id, update.effective_user.username)
         
+        safe_first_name = escape_markdown(user.first_name or "there")
         welcome_message = (
-            f"Welcome to NTU STARS Alert Bot, {user.first_name}!\n\n"
+            f"Welcome to NTU STARS Alert Bot, {safe_first_name}!\n\n"
             "I'll help you monitor course vacancies and notify you when slots open up.\n\n"
             "Available Commands:\n"
             "/add - Add a course alert\n"
@@ -76,10 +81,11 @@ class TelegramBot:
             "/cancel - Cancel current operation\n\n"
             "To get started, use /add to create your first alert!\n"
             "Or use /displayVacancies to check vacancies without creating an alert\n\n"
-            "Note: NTU vacancy service is only available 8am-10pm Singapore time."
+            "Note: NTU vacancy service is only available 8am-10pm Singapore time.\n\n"
+            f"Data source: {DATA_SOURCE_LINK}"
         )
         
-        await update.message.reply_text(welcome_message)
+        await update.message.reply_text(welcome_message, parse_mode='Markdown')
     
     async def help_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /help command"""
@@ -106,7 +112,8 @@ class TelegramBot:
             "- You can restart anytime with /start\n\n"
             "*Important:*\n"
             "NTU vacancy service is only available 8am-10pm Singapore time\n"
-            "No login required - uses public NTU data"
+            "No login required - uses public NTU data\n\n"
+            f"Data source: {DATA_SOURCE_LINK}"
         )
         
         await update.message.reply_text(help_text, parse_mode='Markdown')
@@ -199,7 +206,8 @@ class TelegramBot:
             
             message += "\n"
         
-        message += f"\nTotal: {len(all_indexes)} indexes"
+        message += f"\nTotal: {len(all_indexes)} indexes\n\n"
+        message += f"Data source: {DATA_SOURCE_LINK}"
         
         # Create pagination buttons
         keyboard = []
@@ -345,7 +353,8 @@ class TelegramBot:
             
             message += "\n"
         
-        message += "\nEnter the *index number* to monitor, or use buttons to navigate:"
+        message += "\nEnter the *index number* to monitor, or use buttons to navigate:\n\n"
+        message += f"Data source: {DATA_SOURCE_LINK}"
         
         # Create pagination buttons
         keyboard = []
@@ -460,7 +469,8 @@ class TelegramBot:
                     else:
                         status_msg += "I'll notify you when a vacancy opens up!\n\n"
                     
-                    status_msg += f"Checking every {config.CHECK_INTERVAL // 60} minutes."
+                    status_msg += f"Checking every {config.CHECK_INTERVAL // 60} minutes.\n\n"
+                    status_msg += f"Data source: {DATA_SOURCE_LINK}"
                     
                     await update.message.reply_text(status_msg, parse_mode='Markdown')
                 else:
